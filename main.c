@@ -7,11 +7,11 @@
 #include <ctype.h>
 #include "tuntcp.h"
 
-int main(void) {
-
+int main(void)
+{
 	int tun = openTun("tun0");
 	struct tcp_conn conn;
-	TCPConnection(tun, "93.184.216.34", 80, &conn);
+	TCPConnection(tun, "192.0.3.2", 80, &conn);
 	char buffer[1024] = {0};
 
 	// Sending a SYN packet
@@ -33,7 +33,7 @@ int main(void) {
 
 	// Sending a RST packet
 	send_tcp_packet(&conn, TCP_RST);
-	
+
 	conn.state = TCP_CLOSED;
 	return 0;
 }
