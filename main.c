@@ -11,7 +11,7 @@ int main(void)
 {
 	int tun = openTun("tun0");
 	struct tcp_conn conn;
-	TCPConnection(tun, "192.0.3.2", 80, &conn);
+	TCPConnection(tun, "192.0.3.2", 1395, &conn);
 	char buffer[1024] = {0};
 
 	// Sending a SYN packet
