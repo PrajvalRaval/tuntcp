@@ -13,6 +13,7 @@ sudo iptables -A FORWARD -i tun0 -s 192.0.2.2 -j ACCEPT
 sudo iptables -A FORWARD -o tun0 -d 192.0.2.2 -j ACCEPT
 
 # sudo iptables -t nat -A POSTROUTING -s 192.0.3.2 -j MASQUERADE
+sudo iptables -A INPUT -i tun1 -j ACCEPT
 sudo iptables -A FORWARD -i tun1 -s 192.0.2.2 -j ACCEPT
 sudo iptables -A FORWARD -o tun1 -d 192.0.3.2 -j ACCEPT
 
