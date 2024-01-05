@@ -30,6 +30,22 @@ void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 	ip->checksum = checksum(ip, sizeof(*ip));
 }
 
+void IPV41(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
+{
+	ip->version_ihl = 4 << 4 | 5;
+	ip->tos = 0;
+	ip->len = htons(sizeof(*ip) + len_contents);
+	ip->id = htons(1);
+	ip->frag_offset = 0;
+	ip->ttl = 64;
+	ip->proto = protocol;
+	ip->checksum = 0;
+	inet_pton(AF_INET, "192.0.3.1", &(ip->src));
+	inet_pton(AF_INET, daddr, &(ip->dst));
+
+	ip->checksum = checksum(ip, sizeof(*ip));
+}
+
 void ICMPEcho(uint16_t seq, struct icmpecho *echo)
 {
 
@@ -100,6 +116,25 @@ void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 
 	struct ipv4 ip;
 	IPV4(sizeof(tcp), PROTO_TCP, conn->dst_addr, &ip);
+
+	tcp.checksum = tcp_checksum(&ip, &tcp);
+
+	size_t size = sizeof(ip) + sizeof(tcp);
+	char packet[size];
+	memcpy(packet, &ip, sizeof(ip));
+	memcpy(packet + sizeof(ip), &tcp, sizeof(tcp));
+
+	write(conn->tun, packet, size);
+}
+
+void send_tcp_packet1(struct tcp_conn *conn, uint8_t flags)
+{
+
+	struct tcp tcp;
+	TCP(conn->src_port, conn->dst_port, conn->seq, conn->ack, flags, &tcp);
+
+	struct ipv4 ip;
+	IPV41(sizeof(tcp), PROTO_TCP, conn->dst_addr, &ip);
 
 	tcp.checksum = tcp_checksum(&ip, &tcp);
 

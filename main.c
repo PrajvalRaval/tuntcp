@@ -14,14 +14,14 @@ int main(void)
 	struct tcp_conn conn;
 	struct tcp_conn conn1;
 	TCPConnection(tun, "192.0.3.1", 1395, &conn);
-	TCPConnection(tun, "192.0.3.1", 1395, &conn1);
+	TCPConnection1(tun, "192.0.3.1", 1395, &conn1);
 
 	char buffer[1024] = {0};
 	char buffer1[1024] = {0};
 
 	// Sending a SYN packet
 	send_tcp_packet(&conn, TCP_SYN);
-	send_tcp_packet(&conn1, TCP_SYN);
+	send_tcp_packet1(&conn1, TCP_SYN);
 	conn.state = TCP_SYN_SENT;
 	conn1.state = TCP_SYN_SENT;
 
@@ -42,13 +42,13 @@ int main(void)
 
 	// Sending an ACK packet
 	send_tcp_packet(&conn, TCP_ACK);
-	send_tcp_packet(&conn1, TCP_ACK);
+	send_tcp_packet1(&conn1, TCP_ACK);
 	conn.state = TCP_ESTABLISHED;
 	conn1.state = TCP_ESTABLISHED;
 
 	// Sending a RST packet
 	send_tcp_packet(&conn, TCP_RST);
-	send_tcp_packet(&conn1, TCP_RST);
+	send_tcp_packet1(&conn1, TCP_RST);
 	conn.state = TCP_CLOSED;
 	conn1.state = TCP_CLOSED;
 
