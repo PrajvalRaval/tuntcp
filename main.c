@@ -10,6 +10,7 @@
 int main(void)
 {
 	int tun = openTun("tun0");
+	int tun1 = openTun("tun1");
 	struct tcp_conn conn;
 	TCPConnection(tun, "192.0.3.1", 1395, &conn);
 	char buffer[1024] = {0};
