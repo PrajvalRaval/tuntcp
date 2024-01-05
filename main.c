@@ -14,7 +14,7 @@ int main(void)
 	struct tcp_conn conn;
 	struct tcp_conn conn1;
 	TCPConnection(tun, "192.0.3.1", 1395, &conn);
-	TCPConnection1(tun, "192.0.3.1", 1395, &conn1);
+	TCPConnection1(tun1, "192.0.3.1", 1395, &conn1);
 
 	char buffer[1024] = {0};
 	char buffer1[1024] = {0};
