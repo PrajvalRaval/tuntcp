@@ -24,7 +24,7 @@ void IPV4(size_t len_contents, uint8_t protocol, char *daddr, struct ipv4 *ip)
 	ip->ttl = 64;
 	ip->proto = protocol;
 	ip->checksum = 0;
-	inet_pton(AF_INET, "192.0.2.2", &(ip->src));
+	inet_pton(AF_INET, "192.0.2.1", &(ip->src));
 	inet_pton(AF_INET, daddr, &(ip->dst));
 
 	ip->checksum = checksum(ip, sizeof(*ip));
@@ -64,7 +64,7 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 	conn->tun = tun;
 	conn->state = TCP_CLOSED;
 
-	inet_pton(AF_INET, "192.0.2.2", &(conn->src_addr));
+	inet_pton(AF_INET, "192.0.2.1", &(conn->src_addr));
 	conn->src_port = rand() % INT16_MAX;
 
 	conn->dst_addr = addr;
