@@ -74,6 +74,24 @@ void TCPConnection(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
 	conn->ack = 0;
 }
 
+void TCPConnection1(int tun, char *addr, uint16_t port, struct tcp_conn *conn)
+{
+
+	srand(time(NULL));
+
+	conn->tun = tun;
+	conn->state = TCP_CLOSED;
+
+	inet_pton(AF_INET, "192.0.3.1", &(conn->src_addr));
+	conn->src_port = rand() % INT16_MAX;
+
+	conn->dst_addr = addr;
+	conn->dst_port = port;
+
+	conn->seq = rand();
+	conn->ack = 0;
+}
+
 void send_tcp_packet(struct tcp_conn *conn, uint8_t flags)
 {
 
